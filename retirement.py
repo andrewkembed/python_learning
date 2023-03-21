@@ -14,6 +14,8 @@ class Business:
     
     def get_start_amount(self):
         return self.startAmount
+    def get_business_name(self):
+        return self.name
 
 class Savings:
 
@@ -57,9 +59,12 @@ def main():
                       rental5, rental6, rental7, rental8, rental9, rental10]
 
 
-    for i in range(2): #len(business_array)):
-        while (savings.get_current_savings() <= business_array[i+1].get_start_amount()):
-            savings.add_to_savings(business_array[i].get_monthly_income())
+    for i in range(len(business_array)):
+        print("Business Name: ", business_array[i].get_business_name())
+        while (savings.get_current_savings() <= business_array[i+1].get_start_amount()): #aways increase i+1
+            for x in range(i+1):
+                savings.add_to_savings(business_array[x].get_monthly_income())
+                #print("Where: ", business_array[x].get_business_name(), "Saving Amount: ", savings.get_current_savings())
             total_num_months += 1
         savings.subtract_from_savings(business_array[i+1].get_start_amount())
     print("Total number of months: ", total_num_months)
