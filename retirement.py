@@ -1,4 +1,5 @@
 import math
+import array
 
 
 class Business:
@@ -53,8 +54,6 @@ def main():
     rentals_starting_income = 350
     rentals_apprication = 0.10
 
-
-
     total_num_months = 0
     savings = Savings(0)
     dri_bonez =     Business("DriBonez", 250, 0.075, 0)
@@ -73,6 +72,10 @@ def main():
 
     business_array = [dri_bonez, stone_hackle, rental1, rental2, rental3, rental4, 
                       rental5, rental6, rental7, rental8, rental9, rental10, rental11]
+    
+    monthly_savings_array = [0 for i in range (len(business_array)*12)] #values for savings for each month
+    monthly_income_array = [0 for i in range (len(business_array)*12)]  #values for the income for each month
+    print(monthly_savings_array)
 
     for i in range(len(business_array)):
         if i == (len(business_array) -1 ):
@@ -105,23 +108,14 @@ def main():
     print("Total number of years:  ", total_num_months/12)
     
     print("amount in savings ", savings.get_current_savings())
-    #take the monthlyIncome from a business and add it to the 
-    #   Savings:current_monthly_income ONLY once every 12 turns
-    #   as well as add to the current savings
-    #do above until purchase price is reached in savings
-    #then remove the purchase price from savings 
-    #then start to include the entity that was just purchased
-
-
-                #while (savings.get_current_savings() <= business_array[i+1].get_start_amount()): #aways increase i+1
-            #    for x in range(i+1):
-            #        savings.add_to_savings(business_array[x].get_monthly_income())
-            #        #print("Where: ", business_array[x].get_business_name(), "Saving Amount: ", savings.get_current_savings())
-            #    total_num_months += 1
-            #savings.subtract_from_savings(business_array[i+1].get_start_amount())
-
-
 
 
 if __name__ == "__main__":
     main()
+
+#want to keep creating new business instances until a certain montly income is reached
+#keep track of the montly savings, which is used to purchase / initialize the next business
+#once a new business is created, the income is added to the savings in order to buy the next business
+#every year the income for each business is increased by x% to account for growth
+#once some number of rentals is created, continue to add the other business incomes to savings 
+#savings should provide an x amount of income at this point until monthly income goal is reached
