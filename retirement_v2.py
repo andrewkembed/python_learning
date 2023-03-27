@@ -62,7 +62,7 @@ def main():
     #print("Jan\t| Feb\t| Mar\t| Apr\t| May\t| Jun\t| Jul\t| Aug\t| Sept\t| Oct\t| Nov\t| Dec\t|")
     savings_account = Savings(0)
 
-    savings_history_list = []   #records all the monthly savings values for printing later
+    #savings_history_list = []   #records all the monthly savings values for printing later
 
     business_list =[]           #list of all business currenly created
     business_list.append(Business("dribonez",monthlyIncome=350,increasePerYear=0.05,nextBuyPrice=3000))
@@ -74,11 +74,13 @@ def main():
     while(savings_account.get_monthly_income() <= 10000):
         if(savings_account.get_current_savings() < business_list[len(business_list)-1].get_nextBuyPrice()):
             savings_account.add_to_savings(savings_account.get_monthly_income())
-            savings_history_list.append(savings_account.get_current_savings())
-            #print("current savings: ", savings_history_list[-1])
+            #savings_history_list.append(savings_account.get_current_savings())
 
+            print("current savings: ", savings_account.get_current_savings())
+            
             for x in business_list[:-1]:
                 x.add_to_month_exist()
+                print(x.get_num_months_exist(), x.get_business_name())
                 if((x.get_num_months_exist() % 12) == 0):
                     savings_account.change_current_montly_income(-x.get_monthly_income())
                     x.calc_new_monthlyIncome()
@@ -93,8 +95,12 @@ def main():
                 business_list.append(Business(bus_name))
             savings_account.change_current_montly_income(business_list[-1].get_monthly_income())
             print("Business purchased:",business_list[-1].get_business_name())
-            print(len(savings_history_list), "Months | ",
-                  "{:.2f}".format(len(savings_history_list)/12), "Years |", 
+            #print(len(savings_history_list), "Months | ",
+            #      "{:.2f}".format(len(savings_history_list)/12), "Years |", 
+            #      "Income: $", "{:.2f}".format(savings_account.get_monthly_income()))
+            
+            print(business_list[0].get_num_months_exist(), "Months | ",
+                  "{:.2f}".format(business_list[0].get_num_months_exist()/12), "Years |", 
                   "Income: $", "{:.2f}".format(savings_account.get_monthly_income()))
         
     print()
