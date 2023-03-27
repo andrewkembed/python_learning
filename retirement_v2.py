@@ -4,7 +4,7 @@ import array
 
 class Business:
     #current_profit = 0
-    def __init__(self, name, monthlyIncome, increasePerYear, buyPrice):
+    def __init__(self, name, monthlyIncome=350, increasePerYear=0.10, buyPrice=25000):
         self.name = name
         self.monthlyIncome = monthlyIncome
         self.increasePerYear = increasePerYear
@@ -16,8 +16,9 @@ class Business:
     def get_monthly_income(self):
         return self.monthlyIncome
     
-    def get_start_amount(self):
+    def get_buyPrice(self):
         return self.buyPrice
+    
     def get_business_name(self):
         return self.name
     
@@ -49,7 +50,42 @@ class Savings:
 
 
 def main():
-    print('How long till retirement?')
+    print('Building a Business Empire')
+    print()
+    #print("Jan\t| Feb\t| Mar\t| Apr\t| May\t| Jun\t| Jul\t| Aug\t| Sept\t| Oct\t| Nov\t| Dec\t|")
+    savings_account = Savings(0)
+
+    savings_history_list = []   #records all the monthly savings values
+    income_history_list = []    #records all the current monthly income values
+
+    business_list =[]           #list of all business currenly created
+    business_list.append(Business("dribonez",monthlyIncome=200,increasePerYear=0.05,buyPrice=0))
+
+    #testName = "business" + str(len(business_list)+1)
+    business_list.append(Business("stoneHackle",monthlyIncome=400,increasePerYear=0.05,buyPrice=3000))
+
+    while(savings_account.get_current_savings() < business_list[len(business_list)-1].get_buyPrice()):
+        savings_account.add_to_savings(business_list[0].get_monthly_income())
+        savings_history_list.append(savings_account.get_current_savings())
+        print("current savings: ", savings_history_list)
+        #print(savings_account.get_current_savings(), end='\t| ')
+        #if((total_num_months % 12) == 0):
+        #    print()
+        #    print("*Summary* Years: ", str(total_num_months/12) + 
+        #          "  Savings: $", str(savings_account.get_current_savings()) + 
+        #          "  Num Businesses: ", len(business_list)-1)
+        #    print()
+
+    #have to subtract the puchase price from the next months value before adding its income
+    savings_account.subtract_from_savings(business_list[len(business_list)-1].get_buyPrice())
+    
+
+    print()
+    print()
+    #for x in business_list:
+    #    print(x.get_business_name())
+    #    print(x.get_buyPrice())
+
 
 
 
