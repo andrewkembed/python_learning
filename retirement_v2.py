@@ -64,20 +64,25 @@ def main():
     #testName = "business" + str(len(business_list)+1)
     business_list.append(Business("stoneHackle",monthlyIncome=400,increasePerYear=0.05,buyPrice=3000))
 
-    while(savings_account.get_current_savings() < business_list[len(business_list)-1].get_buyPrice()):
-        savings_account.add_to_savings(business_list[0].get_monthly_income())
-        savings_history_list.append(savings_account.get_current_savings())
-        print("current savings: ", savings_history_list)
-        #print(savings_account.get_current_savings(), end='\t| ')
-        #if((total_num_months % 12) == 0):
-        #    print()
-        #    print("*Summary* Years: ", str(total_num_months/12) + 
-        #          "  Savings: $", str(savings_account.get_current_savings()) + 
-        #          "  Num Businesses: ", len(business_list)-1)
-        #    print()
+    while(len(business_list) <= 5):  #should be: do until monthly income is >= $10000
+        if(savings_account.get_current_savings() < business_list[len(business_list)-1].get_buyPrice()):
+            savings_account.add_to_savings(business_list[0].get_monthly_income())
+            savings_history_list.append(savings_account.get_current_savings())
+            print("current savings: ", savings_history_list[-1])
+            if((len(savings_history_list) % 12) == 0):
+                print("Value increased!")
+                for x in business_list[:-1]:
+                    x.calc_new_monthlyIncome()
+                    print(x.get_business_name(), end=' ')
+                    print(x.get_monthly_income())
+        else:
+            savings_account.subtract_from_savings(business_list[len(business_list)-1].get_buyPrice())
+            bus_name = "business" + str(len(business_list)+1)
+            business_list.append(Business(bus_name))
+            print("Business purchased")
+            print("Num Months:", len(savings_history_list), " Years:", str(len(savings_history_list)/12))
+        
 
-    #have to subtract the puchase price from the next months value before adding its income
-    savings_account.subtract_from_savings(business_list[len(business_list)-1].get_buyPrice())
     
 
     print()
@@ -98,3 +103,12 @@ if __name__ == "__main__":
 #every year the income for each business is increased by x% to account for growth
 #once some number of rentals is created, continue to add the other business incomes to savings 
 #savings should provide an x amount of income at this point until monthly income goal is reached
+
+
+        #print(savings_account.get_current_savings(), end='\t| ')
+        #if((total_num_months % 12) == 0):
+        #    print()
+        #    print("*Summary* Years: ", str(total_num_months/12) + 
+        #          "  Savings: $", str(savings_account.get_current_savings()) + 
+        #          "  Num Businesses: ", len(business_list)-1)
+        #    print()
