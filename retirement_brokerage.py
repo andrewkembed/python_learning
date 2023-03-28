@@ -74,7 +74,7 @@ def main():
 
     savings_account.change_current_montly_income(business_list[0].get_monthly_income())
 
-    while(len(business_list) <= 7):     #limiting the number of rentals to 5
+    while(len(business_list) <= 6):     #limiting the number of rentals to 5
         if(savings_account.get_current_savings() < business_list[len(business_list)-1].get_nextBuyPrice()):
             savings_account.add_to_savings(savings_account.get_monthly_income())
 
@@ -99,6 +99,13 @@ def main():
                   "{:.2f}".format(business_list[0].get_num_months_exist()), "Years |", 
                   "Income: $", "{:.2f}".format(savings_account.get_monthly_income()),
                   "Savings after Purchase: $", savings_account.get_current_savings())
+            
+    #business_list.append(Business("Brokerage Div", 
+    #                              monthlyIncome=savings_account.get_monthly_income(), 
+    #                              increasePerYear=0.08, 
+    #                              nextBuyPrice=0))
+    
+
     print()
     print("*** SUMMARY OF BUSINESSES ***")
     print("Name\t\tExist (Years)\tEnding Income per Month")
