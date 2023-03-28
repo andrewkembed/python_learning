@@ -4,7 +4,7 @@ import array
 
 class Business:
     num_months_exist = 0
-    def __init__(self, name, monthlyIncome=500, increasePerYear=0.10, nextBuyPrice=25000):
+    def __init__(self, name, monthlyIncome=350, increasePerYear=0.10, nextBuyPrice=25000):
         self.name = name
         self.monthlyIncome = monthlyIncome
         self.increasePerYear = increasePerYear
@@ -53,16 +53,24 @@ class Savings:
     def change_current_montly_income(self, amount):
         self.current_monthly_income += amount
 
-
-#issues:::
-
 def main():
-    print('Building a Business Empire')
+
+    #####Initial Conditions
+    db_monthlyIncome = 300
+    db_increasePerYear = 0.10
+    db_nextBuyPrice = 3000
+
+    sh_monthlyIncome = 650
+    sh_increasePerYear = 0.10
+    #######################
+
+    print("********** Building a Business Empire **********")
     print()
     savings_account = Savings(0)
 
     business_list =[]
-    business_list.append(Business("dribonez",monthlyIncome=50,increasePerYear=0.05,nextBuyPrice=3000))
+    business_list.append(Business("Dri-Bonez",monthlyIncome=db_monthlyIncome,
+                                  increasePerYear=db_increasePerYear,nextBuyPrice=db_nextBuyPrice))
 
     savings_account.change_current_montly_income(business_list[0].get_monthly_income())
 
@@ -73,28 +81,36 @@ def main():
 
             for x in business_list:
                 x.add_to_month_exist()
-                #print(x.get_num_months_exist(), x.get_business_name())
                 if((x.get_num_months_exist() % 12) == 0):
                     savings_account.change_current_montly_income(-x.get_monthly_income())
                     x.calc_new_monthlyIncome()
                     savings_account.change_current_montly_income(x.get_monthly_income())
-                    #print("New Income:", x.get_monthly_income(), x.get_business_name())
         else:
             savings_account.subtract_from_savings(business_list[len(business_list)-1].get_nextBuyPrice())
             if((len(business_list)-1) == 0):
-                business_list.append(Business("stoneHackle", monthlyIncome=500, increasePerYear=0.05))
+                business_list.append(Business("Stone Hackle", 
+                                              monthlyIncome=sh_monthlyIncome, 
+                                              increasePerYear=sh_increasePerYear))
             else:
-                bus_name = "business" + str(len(business_list)+1)
+                bus_name = "Rental" + str(len(business_list)-1)
                 business_list.append(Business(bus_name))
             savings_account.change_current_montly_income(business_list[-1].get_monthly_income())
             print("Business purchased:",business_list[-1].get_business_name())
             print(business_list[0].get_num_months_exist(), "Months | ",
-                  "{:.2f}".format(business_list[0].get_num_months_exist()/12), "Years |", 
-                  "Income: $", "{:.2f}".format(savings_account.get_monthly_income()))
+                  "{:.2f}".format(business_list[0].get_num_months_exist()), "Years |", 
+                  "Income: $", "{:.2f}".format(savings_account.get_monthly_income()),
+                  "Savings after Purchase: $", savings_account.get_current_savings())
+    print()
+    print("*** SUMMARY OF BUSINESSES ***")
+    print("Name\t\tExist (Years)\tEnding Income per Month")
+    for y in business_list:
+        print(y.get_business_name(), "\t", 
+              "{:.2f}".format(y.get_num_months_exist()/12), "\t\t", 
+              "${:.2f}".format(y.get_monthly_income()))
+    print("\nMonthly Income: $", "{:.2f}".format(savings_account.get_monthly_income()))
+    print("Years to Complete:", "{:.2f}".format(business_list[0].get_num_months_exist()/12))
+    print("Amount Remaining in Savings: $",savings_account.get_current_savings())
         
-    print()
-    print()
-    print("end income of dribonez:",business_list[0].get_monthly_income())
 
 if __name__ == "__main__":
     main()
