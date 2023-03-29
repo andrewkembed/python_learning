@@ -63,6 +63,8 @@ class Brokerage(Savings):
     
     def calc_current_income(self):
         self.current_income = self.get_current_savings() * (self.percent_yield/12)
+    
+    def get_brokerage_current_income(self):
         return self.current_income
     
     def add_months_open(self):
@@ -125,7 +127,8 @@ def main():
     #print("savings monthly income:",savings_account.get_monthly_income())
     #print("brokage monthly income:",brokerage_account.get_monthly_income())
 
-    while(brokerage_account.calc_current_income() <= (monthly_income_goal - brokerage_account.get_monthly_income())):
+    print("\n\n*** Brokerage Account Summary ***")
+    while(brokerage_account.get_brokerage_current_income() <= (monthly_income_goal - brokerage_account.get_monthly_income())):
         brokerage_account.add_to_savings(brokerage_account.get_monthly_income())
         for x in business_list:
             x.add_to_month_exist()
@@ -133,9 +136,16 @@ def main():
                 brokerage_account.change_current_montly_income(-x.get_monthly_income())
                 x.calc_new_monthlyIncome()
                 brokerage_account.change_current_montly_income(x.get_monthly_income())
+        
         brokerage_account.add_months_open()
+        #if((brokerage_account.get_num_months_open() %12) == 0):
+        #    brokerage_account.change_current_montly_income(-brokerage_account.get_brokerage_current_income())
+        #    brokerage_account.calc_current_income()
+        #    brokerage_account.change_current_montly_income(brokerage_account.get_brokerage_current_income())
+        brokerage_account.calc_current_income()
+        brokerage_account.add_to_savings(brokerage_account.get_brokerage_current_income())
         print("Months Open:", brokerage_account.get_num_months_open(),
-              "\tIncome Yield: $", "{:.2f}".format(brokerage_account.calc_current_income()),
+              "\tIncome Yield: $", "{:.2f}".format(brokerage_account.get_brokerage_current_income()),
               "\tTotal in brokerage: $", brokerage_account.get_current_savings())
 
     
@@ -149,9 +159,11 @@ def main():
               "${:.2f}".format(y.get_monthly_income()))
     print("Brokerage", "\t", 
         "{:.2f}".format(brokerage_account.get_num_months_open()/12), "\t\t", 
-        "${:.2f}".format(brokerage_account.get_monthly_income()))
-    print("\nMonthly Income: $", "{:.2f}".format(savings_account.get_monthly_income() + 
-                                                 brokerage_account.get_monthly_income()))
+        "${:.2f}".format(brokerage_account.get_brokerage_current_income()))
+    
+    print("\nMonthly Income Goal: $", monthly_income_goal)
+    print("Monthly Income: $", "{:.2f}".format(brokerage_account.get_monthly_income() + 
+                                                 brokerage_account.get_brokerage_current_income()))
     print("Years to Complete:", "{:.2f}".format(business_list[0].get_num_months_exist()/12))
     print("Amount in Brokerage: $",brokerage_account.get_current_savings())
         
