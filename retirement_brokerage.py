@@ -73,11 +73,13 @@ class Brokerage(Savings):
 def main():
 
     #####Initial Conditions
-    db_monthlyIncome = 300
+    #Dri-Bonez Init Conditions
+    db_monthlyIncome = 200
     db_increasePerYear = 0.10
     db_nextBuyPrice = 3000
 
-    sh_monthlyIncome = 650
+    #Stone Hackle Init conditions
+    sh_monthlyIncome = 500
     sh_increasePerYear = 0.10
 
     monthly_income_goal = 4000*1.35
@@ -124,8 +126,6 @@ def main():
     brokerage_account.add_to_savings(savings_account.get_current_savings())
     brokerage_account.change_current_montly_income(savings_account.get_monthly_income())
     savings_account.subtract_from_savings(savings_account.get_current_savings())
-    #print("savings monthly income:",savings_account.get_monthly_income())
-    #print("brokage monthly income:",brokerage_account.get_monthly_income())
 
     print("\n\n*** Brokerage Account Summary ***")
     while(brokerage_account.get_brokerage_current_income() <= (monthly_income_goal - brokerage_account.get_monthly_income())):
@@ -138,17 +138,11 @@ def main():
                 brokerage_account.change_current_montly_income(x.get_monthly_income())
         
         brokerage_account.add_months_open()
-        #if((brokerage_account.get_num_months_open() %12) == 0):
-        #    brokerage_account.change_current_montly_income(-brokerage_account.get_brokerage_current_income())
-        #    brokerage_account.calc_current_income()
-        #    brokerage_account.change_current_montly_income(brokerage_account.get_brokerage_current_income())
         brokerage_account.calc_current_income()
         brokerage_account.add_to_savings(brokerage_account.get_brokerage_current_income())
         print("Months Open:", brokerage_account.get_num_months_open(),
               "\tIncome Yield: $", "{:.2f}".format(brokerage_account.get_brokerage_current_income()),
               "\tTotal in brokerage: $", brokerage_account.get_current_savings())
-
-    
 
     print()
     print("*** SUMMARY OF BUSINESSES ***")
